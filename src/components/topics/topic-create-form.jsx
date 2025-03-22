@@ -7,6 +7,7 @@ import { Form } from "@heroui/form";
 import * as actions from "@/actions";
 import { useActionState } from "react";
 import { addToast } from "@heroui/react";
+import FormButton from "../common/form-button";
 
 export default function TopicCreateForm() {
   const [formState, action, isPending] = useActionState(actions.createTopic, {
@@ -27,7 +28,7 @@ export default function TopicCreateForm() {
           "dark:from-default-100 dark:to-default-50",
         ],
       }}
-      placement="left-start"
+      placement="bottom"
     >
       <PopoverTrigger>
         <Button fullWidth className="bg-black" color="primary" radius="lg">
@@ -65,15 +66,8 @@ export default function TopicCreateForm() {
               </div>
             ) : null}
 
-            <Button
-              className="bg-black dark:bg-white"
-              color="primary"
-              type="submit"
-              radius="sm"
-              isLoading={isPending}
-            >
-              Submit
-            </Button>
+            <FormButton isPending={isPending}>Submit</FormButton>
+
           </div>
         </Form>
       </PopoverContent>

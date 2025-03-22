@@ -1,23 +1,25 @@
 import { db } from "@/db";
 import paths from "@/paths";
-import { Chip } from "@heroui/chip";
+import { Button } from "@heroui/button";
 import Link from "next/link";
 
 export default async function TopicList() {
   const topics = await db.topic.findMany();
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 pb-4">
       {topics.map((topic) => {
         return (
           <div key={topic.id}>
             <Link href={paths.topicShow(topic.slug)}>
-              <Chip
-                color="warning"
+              <Button
+                className="p-5"
+                radius="full"
                 variant="flat"
+                size="sm"
               >
                 {topic.slug}
-              </Chip>
+              </Button>
             </Link>
           </div>
         );

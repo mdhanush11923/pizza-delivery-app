@@ -3,7 +3,7 @@ import CommentList from "@/components/comments/comment-list";
 import CommentCreateForm from "@/components/comments/comment-create-form";
 import paths from "@/paths";
 import { Link } from "@heroui/link";
-
+import NextLink from "next/link";
 interface PostShowPageProps {
   params: Promise<{ slug: string; postId: string }>;
 }
@@ -13,8 +13,15 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
 
   return (
     <div className="space-y-3">
-      <Link underline="always" href={paths.topicShow(slug)}>
-        {"< "}Back to {slug}
+      <Link
+        as={NextLink}
+        isBlock
+        color="foreground"
+        href={paths.topicShow(slug)}
+        size="sm"
+        underline="always"
+      >
+        {"< "}More on {slug}
       </Link>
       <PostShow postId={postId} />
       <CommentCreateForm postId={postId} startOpen />

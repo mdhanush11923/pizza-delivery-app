@@ -10,20 +10,39 @@ import {
 } from "@heroui/react";
 import { useActionState } from "react";
 import * as actions from "@/actions";
-
+import FormButton from "../common/form-button";
+import AddIcon from "@mui/icons-material/Add";
 interface PostCreateFormProps {
-  slug: string
+  slug: string;
 }
 
-export default function PostCreateForm({slug}: PostCreateFormProps) {
-  const [formState, action, isPending] = useActionState(actions.createPost.bind(null, slug), {
-    errors: {},
-  });
+export default function PostCreateForm({ slug }: PostCreateFormProps) {
+  const [formState, action, isPending] = useActionState(
+    actions.createPost.bind(null, slug),
+    {
+      errors: {},
+    }
+  );
 
   return (
-    <Popover placement="left-start">
+    <Popover
+      backdrop="opaque"
+      showArrow
+      classNames={{
+        base: ["before:bg-default-200"],
+        content: [
+          "py-3 px-2 border-2 rounded-xl border-default-200",
+          "bg-white",
+          "dark:from-default-100 dark:to-default-50",
+        ],
+      }}
+      placement="left-start"
+    >
       <PopoverTrigger>
-        <Button color="primary" radius="sm">Create a post</Button>
+        <Button fullWidth className="bg-black" color="primary" radius="lg">
+          <AddIcon />
+          Create a Post
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <Form
@@ -36,9 +55,10 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
             <h3 className="text-xl">Create a post</h3>
             <Input
               name="title"
-              placeholder="Title"
+              placeholder="Title of the post"
               label="Title"
               labelPlacement="outside"
+              variant="faded"
               defaultValue={formState.inputs?.title || ""}
             />
             <Input
@@ -46,6 +66,7 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
               placeholder="Content"
               label="Content"
               defaultValue={formState.inputs?.content || ""}
+              variant="faded"
               labelPlacement="outside"
             />
 
@@ -55,9 +76,7 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
               </div>
             ) : null}
 
-            <Button type="submit" isLoading={isPending}>
-              Submit
-            </Button>
+            <FormButton isPending={isPending}>Submit</FormButton>
           </div>
         </Form>
       </PopoverContent>

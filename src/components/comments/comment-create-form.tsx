@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Textarea, Button } from "@heroui/react";
 import * as actions from "@/actions";
+import FormButton from "../common/form-button";
 
 interface CommentCreateFormProps {
   postId: string;
@@ -37,8 +38,7 @@ export default function CommentCreateForm({
       <div className="space-y-2 px-1">
         <Textarea
           name="content"
-          label="Reply"
-          placeholder="Enter your comment"
+          placeholder="Add a comment..."
           isInvalid={!!formState.errors.content}
           errorMessage={formState.errors.content?.join(", ")}
         />
@@ -49,7 +49,7 @@ export default function CommentCreateForm({
           </div>
         ) : null}
 
-        <Button type="submit" isLoading={isPending} >Create Comment</Button>
+        <FormButton isPending={isPending}>Create Comment</FormButton>
       </div>
     </form>
   );

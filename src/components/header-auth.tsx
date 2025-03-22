@@ -31,15 +31,14 @@ export default function HeaderAuth() {
   } else {
     authContent = (
       <>
-        {" "}
         <NavbarItem>
           <form action={actions.signIn}>
-            <Button type="submit">Sign in</Button>
+            <Button variant="ghost" type="submit">Sign in</Button>
           </form>
         </NavbarItem>
         <NavbarItem>
           <form action={actions.signIn}>
-            <Button type="submit">Sign up</Button>
+            <Button className="bg-black" color="primary" type="submit">Sign up</Button>
           </form>
         </NavbarItem>
       </>
