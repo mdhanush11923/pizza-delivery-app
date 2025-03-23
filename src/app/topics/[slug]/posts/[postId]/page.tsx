@@ -4,6 +4,8 @@ import CommentCreateForm from "@/components/comments/comment-create-form";
 import paths from "@/paths";
 import { Link } from "@heroui/link";
 import NextLink from "next/link";
+import { Suspense } from "react";
+import Loading from "./loading";
 interface PostShowPageProps {
   params: Promise<{ slug: string; postId: string }>;
 }
@@ -23,7 +25,10 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
       >
         {"< "}More on {slug}
       </Link>
-      <PostShow postId={postId} />
+      <Suspense fallback={<Loading />}>
+        <PostShow postId={postId} />
+      </Suspense>
+
       <CommentCreateForm postId={postId} startOpen />
       <CommentList postId={postId} />
     </div>
