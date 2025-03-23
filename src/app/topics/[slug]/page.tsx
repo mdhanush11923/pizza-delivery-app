@@ -14,7 +14,7 @@ export default async function TopicShowPage({
   const topic = await db.topic.findFirst({ where: { slug } });
 
   return (
-    <div className="grid grid-cols-4 gap-4 p-4">
+    <div className="min-h-screen grid grid-cols-4 gap-4 p-4">
       <div className="flex flex-col col-span-3">
         <h1 className="capitalize text-2xl font-bold mb-2">{slug}</h1>
         <p className="">{topic?.description}</p>

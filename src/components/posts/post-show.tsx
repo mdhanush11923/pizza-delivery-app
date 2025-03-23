@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { Skeleton } from "@heroui/skeleton";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -18,11 +19,9 @@ export default async function PostShow({ postId }: PostShowProps) {
   }
 
   return (
-    <Suspense>
-    <div className="fles flex-col my-4 text-center">
-      <h1 className="text-3xl font-bold my-5">{post.title}</h1>
+    <div className="flex flex-col gap-5 text-center">
+      <h1 className="text-3xl font-bold mt-10">{post.title}</h1>
       <p className="p-4 border rounded">{post.content}</p>
     </div>
-    </Suspense>
   );
 }

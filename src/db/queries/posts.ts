@@ -8,6 +8,7 @@ export type PostWithData = Post & {
 };
 
 export async function fetchPostByTopicSlug(slug: string): Promise<PostWithData[]> {
+
   return await db.post.findMany({
     where: { topic: {slug} },
     include: {

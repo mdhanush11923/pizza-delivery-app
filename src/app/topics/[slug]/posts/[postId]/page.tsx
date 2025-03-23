@@ -12,7 +12,7 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
   const { slug, postId } = await params;
 
   return (
-    <div className="space-y-3">
+    <div className="min-h-screen space-y-3">
       <Link
         as={NextLink}
         isBlock

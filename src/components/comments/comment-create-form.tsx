@@ -56,7 +56,7 @@ export default function CommentCreateForm({
 
   return (
     <div>
-      <Button size="sm" variant="light" onPress={() => setOpen(!open)}>
+      <Button radius="none" size="sm" variant="light" onPress={() => setOpen(!open)}>
         Reply
       </Button>
       {open && form}
