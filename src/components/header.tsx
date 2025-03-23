@@ -40,7 +40,7 @@ export default function Header() {
         <NavbarBrand className="font-bold">
           <Link href="/">Discuss</Link>
         </NavbarBrand>
-        <NavbarContent justify="center">
+        <NavbarContent className="invisible xm:visible" justify="center">
           <NavbarItem>
             <Input
               classNames={{innerWrapper: "items-center gap-1"}}

@@ -19,9 +19,7 @@ export default function TopicCreateForm() {
       backdrop="opaque"
       showArrow
       classNames={{
-        base: [
-          "before:bg-default-200",
-        ],
+        base: ["before:bg-default-200"],
         content: [
           "py-3 px-4 border-2 rounded-xl border-default-200",
           "bg-white",
@@ -31,7 +29,7 @@ export default function TopicCreateForm() {
       placement="bottom"
     >
       <PopoverTrigger>
-        <Button fullWidth className="bg-black" color="primary" radius="lg">
+        <Button className="bg-black w-full max-w-52" color="primary" radius="lg">
           Create a Topic
         </Button>
       </PopoverTrigger>
@@ -42,7 +40,7 @@ export default function TopicCreateForm() {
           validationBehavior="aria"
           validationErrors={formState.errors}
         >
-          <div className="flex flex-col gap-4 p-4 w-80">
+          <div className="flex flex-col gap-4 p-4 w-72">
             <h3 className="text-lg">Create a Topic</h3>
             <Input
               name="name"
@@ -67,7 +65,6 @@ export default function TopicCreateForm() {
             ) : null}
 
             <FormButton isPending={isPending}>Submit</FormButton>
-
           </div>
         </Form>
       </PopoverContent>
