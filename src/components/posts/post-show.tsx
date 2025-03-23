@@ -1,7 +1,5 @@
 import { db } from "@/db";
-import { Skeleton } from "@heroui/skeleton";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 interface PostShowProps {
   postId: string
