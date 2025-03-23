@@ -3,9 +3,7 @@ import { Input } from "@heroui/input";
 import HeaderAuth from "./header-auth";
 import Link from "next/link";
 
-interface SearchIconProps extends React.SVGProps<SVGSVGElement> {}
-
-export const SearchIcon = (props: SearchIconProps) => {
+export const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       aria-hidden="true"
