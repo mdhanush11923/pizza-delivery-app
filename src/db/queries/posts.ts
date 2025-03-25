@@ -48,7 +48,7 @@ export async function fetchPostByTopicSlug(
       user: { select: { name: true } },
       _count: { select: { comments: true } },
     },
-  })) as PostWithData[];
+  }));
 }
 
 export async function fetchTopPosts(): Promise<PostWithData[]> {
@@ -60,5 +60,5 @@ export async function fetchTopPosts(): Promise<PostWithData[]> {
     },
     orderBy: { comments: { _count: "desc" } },
     take: 10,
-  })) as PostWithData[];
+  }));
 }
