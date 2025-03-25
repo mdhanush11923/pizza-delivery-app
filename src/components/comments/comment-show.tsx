@@ -4,10 +4,11 @@ import { fetchCommentsByItsPostId } from "@/db/queries/comments";
 
 interface CommentShowProps {
   commentId: string,
-  postId: string
+  postId: string,
+  showReplies: boolean
 }
 
-export default async function CommentShow({ commentId, postId }: CommentShowProps) {
+export default async function CommentShow({ commentId, postId, showReplies }: CommentShowProps) {
   const comments  = await fetchCommentsByItsPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
 
@@ -16,14 +17,15 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
   }
 
   const children = comments.filter((c) => c.parentId === commentId);
-  const renderedChildren = children.map((child) => {
-    return (
-      <CommentShow key={child.id} commentId={child.id} postId={postId} />
-    );
-  });
+
+  const renderedChildren = showReplies
+    ? children.map((child) => (
+        <CommentShow key={child.id} commentId={child.id} postId={postId} showReplies={true} />
+      ))
+    : null;
 
   return (
-    <div className="p-4 border border-l-2 border-l-black mt-2 mb-1">
+    <div className="p-2 sm:p-4 border border-l-2 border-l-gray-300 mt-2 mb-1">
       <div className="flex gap-3">
         <Image
           src={comment.user.image || ""}
@@ -39,6 +41,8 @@ export default async function CommentShow({ commentId, postId }: CommentShowProp
           <p className="text-gray-900">{comment.content}</p>
 
           <CommentCreateForm postId={comment.postId} parentId={comment.id} />
+{/*
+          <Button>toggle show replies</Button> */}
         </div>
       </div>
       <div className="pl-4">{renderedChildren}</div>

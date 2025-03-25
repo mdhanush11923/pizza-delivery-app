@@ -16,6 +16,7 @@ export default async function CommentList({ postId }: CommentListProps) {
         key={comment.id}
         commentId={comment.id}
         postId= {postId}
+        showReplies={true}
       />
     );
   });

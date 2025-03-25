@@ -10,11 +10,11 @@ export default function HomePage() {
     <div className="grid re:grid-cols-4 grid-cols-1 gap-4">
       <div className="re:col-span-3">
         <h1 className="text-xl m-2 mb-5">
-          <StarsRoundedIcon /> Top Posts
+          <StarsRoundedIcon fontSize="small" /> Top Posts
         </h1>
         <PostList fetchData={() => fetchTopPosts()} />
       </div>
-      <div className="flex flex-col border m-2 px-5 py-3 shadow">
+      <div className="flex flex-col  rounded-md border m-2 px-5 py-3 shadow">
         <div className="flex w-full">
           <TopicCreateForm />
         </div>

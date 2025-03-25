@@ -33,12 +33,20 @@ export default function HeaderAuth() {
       <>
         <NavbarItem>
           <form action={actions.signIn}>
-            <Button variant="ghost" type="submit">Sign in</Button>
+            <Button
+              className="bg-gradient-to-r from-white to-gray-100 hover:bg-gray-400"
+              variant="ghost"
+              type="submit"
+            >
+              Sign in
+            </Button>
           </form>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem className="invisible xm:visible">
           <form action={actions.signIn}>
-            <Button className="bg-black" color="primary" type="submit">Sign up</Button>
+            <Button className="bg-black" color="primary" type="submit">
+              Sign up
+            </Button>
           </form>
         </NavbarItem>
       </>
