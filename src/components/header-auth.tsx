@@ -42,7 +42,7 @@ export default function HeaderAuth() {
             </Button>
           </form>
         </NavbarItem>
-        <NavbarItem className="invisible xm:visible">
+        <NavbarItem className="hidden xm:flex">
           <form action={actions.signIn}>
             <Button className="bg-black" color="primary" type="submit">
               Sign up
