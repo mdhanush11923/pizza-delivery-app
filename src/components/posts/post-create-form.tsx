@@ -36,7 +36,7 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
           "dark:from-default-100 dark:to-default-50",
         ],
       }}
-      placement="left-start"
+      placement="bottom"
     >
       <PopoverTrigger>
         <Button fullWidth className="bg-black" color="primary" radius="lg">
