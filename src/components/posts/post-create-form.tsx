@@ -3,10 +3,10 @@
 import {
   Button,
   Form,
-  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Textarea,
 } from "@heroui/react";
 import { useActionState } from "react";
 import * as actions from "@/actions";
@@ -53,20 +53,22 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
         >
           <div className="flex flex-col gap-4 p-4 w-80">
             <h3 className="text-xl">Create a post</h3>
-            <Input
+            <Textarea
               name="title"
               placeholder="Title of the post"
               label="Title"
               labelPlacement="outside"
               variant="faded"
               defaultValue={formState.inputs?.title || ""}
+              minRows={1}
             />
-            <Input
+            <Textarea
               name="content"
               placeholder="Content"
               label="Content"
               defaultValue={formState.inputs?.content || ""}
               variant="faded"
+              minRows={1}
               labelPlacement="outside"
             />
 

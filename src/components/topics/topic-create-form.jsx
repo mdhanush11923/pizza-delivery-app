@@ -8,6 +8,7 @@ import * as actions from "@/actions";
 import { useActionState } from "react";
 import { addToast } from "@heroui/react";
 import FormButton from "../common/form-button";
+import CreateIcon from "@mui/icons-material/Create";
 
 export default function TopicCreateForm() {
   const [formState, action, isPending] = useActionState(actions.createTopic, {
@@ -30,7 +31,7 @@ export default function TopicCreateForm() {
     >
       <PopoverTrigger>
         <Button className="bg-black w-full max-w-52" color="primary" radius="lg">
-          Create a Topic
+          <CreateIcon /> Create a Topic
         </Button>
       </PopoverTrigger>
       <PopoverContent>
