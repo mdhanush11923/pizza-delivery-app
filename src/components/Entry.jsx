@@ -28,12 +28,13 @@ export default function Entry(props) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // React.useEffect(() => {
-  //   if (status === "authenticated") {
-  //     console.log("yes authenticated");
-  //     router.push("/dashboard");
-  //   }
-  // }, [status, router]);
+    // const [loginState, loginAction] = useActionState(actions.loginUser, {
+    //   errors: {},
+    // });
+    // const [signupState, signupAction] = useActionState(actions.registerUser, {
+    //   errors: {},
+    // });
+
 
   const [isVisible, setIsVisible] = React.useState({
     loginPassword: false,
@@ -103,7 +104,7 @@ export default function Entry(props) {
     if (!loginDetails.email || !loginDetails.p1) {
       // setErrorMessage("Please fill in all fields for login.");
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: "Please fill in all fields for login.",
       });
       return;
@@ -112,7 +113,7 @@ export default function Entry(props) {
     if (!validateEmail(loginDetails.email)) {
       // setErrorMessage("Please enter a valid email address.");
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: "Please enter a valid email address.",
       });
       return;
@@ -126,7 +127,7 @@ export default function Entry(props) {
     //   }).then((response) => {
     //     if (response?.error) {
     //       addToast({
-    //         variant: "destructive",
+    //         color: "danger",
     //         title: "Login failed. Please check your credentials.",
     //       });
     //     } else {
@@ -143,7 +144,7 @@ export default function Entry(props) {
     // if (!isSignedUp) {
     //   // setErrorMessage("You are not signed up yet.");
     //   addToast({
-    //     variant: "destructive",
+    //     color: "danger",
     //     title: "You are not signed up yet.",
     //   });
     //   return;
@@ -170,7 +171,7 @@ export default function Entry(props) {
     ) {
       // setErrorMessage("Please fill in all fields for sign up.");
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: "Please fill in all fields for sign up.",
       });
       return;
@@ -179,7 +180,7 @@ export default function Entry(props) {
     if (!validateEmail(details.email)) {
       // setErrorMessage("Please enter a valid email address.");
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: "Please enter a valid email address.",
       });
       return;
@@ -188,7 +189,7 @@ export default function Entry(props) {
     if (details.p1 !== details.p2) {
       // setErrorMessage("Passwords do not match.");
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: "Passwords do not match.",
       });
       return;
@@ -240,7 +241,7 @@ export default function Entry(props) {
     } catch (error) {
       console.error("Error:", error);
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: error.message,
       });
     }
@@ -273,7 +274,7 @@ export default function Entry(props) {
     } catch (error) {
       console.error("Error:", error);
       addToast({
-        variant: "destructive",
+        color: "danger",
         title: error.message,
       });
     }
