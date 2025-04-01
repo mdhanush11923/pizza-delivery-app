@@ -17,3 +17,7 @@ const paths = {
 };
 
 export default paths;
+
+export const privateRoutes = ["/admin", "/dashboard"];
+
+export const entryRoutes = ["/login", "signup"]

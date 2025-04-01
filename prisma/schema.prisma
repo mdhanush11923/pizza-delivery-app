@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -15,9 +15,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Authenticators Authenticator[]
-  posts         Post[]
-  comments      Comment[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -64,6 +63,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
   userId               String
@@ -78,44 +78,55 @@ model Authenticator {
 
   @@id([userId, credentialID])
 }
-
-model Topic {
-  id          String @id @default(cuid())
-  slug        String @unique
+model Pizza {
+  id          String   @id @default(uuid())
+  name        String
   description String
-  posts       Post[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  category    String
+  smallPrice  Int
+  mediumPrice Int
+  largePrice  Int
+  baseId      String
+  base        Base    @relation(fields: [baseId], references: [id])
+  cheeseId    String?
+  cheese      Cheese? @relation(fields: [cheeseId], references: [id])
+  sauceId     String?
+  sauce       Sauce?  @relation(fields: [sauceId], references: [id])
+  veggies     Veggie[]
+  stock       Int      @default(50)
+  imageSource String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-model Post {
-  id      String @id @default(cuid())
-  title   String
-  content String
-  userId  String
-  topicId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  topic    Topic     @relation(fields: [topicId], references: [id])
-  comments Comment[]
+model Base {
+  id               String  @id @default(uuid())
+  name             String  @unique
+  price            Int
+  availableQuantity Int
+  pizzas          Pizza[]
 }
 
-model Comment {
-  id       String  @id @default(cuid())
-  content  String
-  postId   String
-  userId   String
-  parentId String?
+model Cheese {
+  id               String  @id @default(uuid())
+  name             String  @unique
+  price            Int
+  availableQuantity Int
+  pizzas          Pizza[]
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Sauce {
+  id               String  @id @default(uuid())
+  name             String  @unique
+  price            Int
+  availableQuantity Int
+  pizzas          Pizza[]
+}
 
-  parent   Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
-  post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  children Comment[] @relation("Comments")
+model Veggie {
+  id               String  @id @default(uuid())
+  name             String  @unique
+  price            Int
+  availableQuantity Int
+  pizzas          Pizza[]
 }
