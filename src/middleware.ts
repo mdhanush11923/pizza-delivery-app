@@ -1,22 +1,22 @@
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
-import { entryRoutes, privateRoutes } from "./paths";
+import { DEFAULT_LOGIN_REDIRECT, entryRoutes, privateRoutes } from "./paths";
 
 const { auth } = NextAuth(authConfig);
 export default auth(async function middleware(req) {
   const isLoggedIn = !!req.auth;
   const { nextUrl } = req;
-  const url = "http://localhost:3000"
+  const baseUrl = nextUrl.origin;
   const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
   const isEntryRoute = entryRoutes.includes(nextUrl.pathname);
-  const isApiRoute = nextUrl.pathname.includes("/api");
+  const isApiRoute = nextUrl.pathname.startsWith("/api");
 
   if (isApiRoute) {
     return;
   }
 
   if (isEntryRoute && isLoggedIn) {
-    return Response.redirect(`${url}/admin`)
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, baseUrl));
   }
 
   if (isEntryRoute && !isLoggedIn) {
@@ -24,7 +24,7 @@ export default auth(async function middleware(req) {
   }
 
   if (isPrivateRoute && !isLoggedIn) {
-    return Response.redirect(`${url}/login`)
+    return Response.redirect(new URL("/login", baseUrl));
   }
 
 

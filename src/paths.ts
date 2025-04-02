@@ -21,3 +21,5 @@ export default paths;
 export const privateRoutes = ["/admin", "/dashboard"];
 
 export const entryRoutes = ["/login", "signup"]
+
+export const DEFAULT_LOGIN_REDIRECT = "/admin";

@@ -1,11 +1,9 @@
 "use server";
 
-import { z } from "zod";
-
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
+import { loginSchema } from "@/schemas";
+import { AuthError } from "next-auth";
 
 interface LoginFormState {
   errors?: {
@@ -32,7 +30,6 @@ export async function loginUser(
   const result = loginSchema.safeParse(rawData);
 
   if (!result.success) {
-    console.log(result.error.flatten().fieldErrors);
     return {
       errors: result.error.flatten().fieldErrors,
       inputs: rawData,
@@ -40,28 +37,30 @@ export async function loginUser(
   }
 
   try {
-    // const authResult = await signIn("credentials", {
-    //   email: rawData.email,
-    //   password: rawData.password,
-    //   redirect: false,
-    // });
-
-    // if (!authResult || authResult.error) {
-    //   return {
-    //     errors: {
-    //       _form: ["Invalid credentials"],
-    //     },
-    //     inputs: rawData,
-    //   };
-    // }
-    console.log(rawData);
-    return { success: true, inputs: rawData };
+    await signIn("credentials", {
+      email: rawData.email,
+      password: rawData.password,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
+    });
   } catch (err) {
-    return {
-      errors: {
-        _form: ["Something went wrong"],
-      },
-      inputs: rawData,
-    };
+    if (err instanceof AuthError) {
+      switch (err.type) {
+        case "CredentialsSignin":
+          return {
+            errors: {
+              _form: ["Invalid email or password"],
+            },
+            inputs: rawData,
+          };
+        default:
+          return {
+            errors: {
+              _form: ["Something went wrong"],
+            },
+            inputs: rawData,
+          };
+      }
+    }
+    throw err;
   }
 }

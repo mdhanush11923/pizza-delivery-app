@@ -1,19 +1,8 @@
 "use server";
 
-import { z } from "zod";
-
-const signupSchema = z
-  .object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Invalid email address"),
-    p1: z.string().min(6, "Password must be at least 6 characters"),
-    p2: z.string(),
-  })
-  .refine((data) => data.p1 === data.p2, {
-    message: "Passwords do not match",
-    path: ["p2"],
-  });
+import bcrypt from "bcryptjs";
+import { db } from "@/db";
+import { signupSchema } from "@/schemas";
 
 interface RegisterFormState {
   errors?: {
@@ -57,9 +46,31 @@ export async function registerUser(
   }
 
   try {
-    console.log("User registration data:", rawData);
+    const existingUser = await db.user.findUnique({
+      where: { email: rawData.email },
+    });
+
+    if (existingUser) {
+      return {
+        errors: { _form: ["This email is already in use"] },
+        inputs: rawData,
+      };
+    }
+
+    const hashedPassword = await bcrypt.hash(rawData.p1, 10);
+    const fullName = `${rawData.firstName} ${rawData.lastName}`.trim();
+
+    await db.user.create({
+      data: {
+        name: fullName,
+        password: hashedPassword,
+        email: rawData.email,
+      },
+    });
+
     return { success: true, inputs: rawData };
   } catch (err) {
+    console.error("Signup error:", err);
     return {
       errors: {
         _form: ["Signup failed due to an unexpected error"],

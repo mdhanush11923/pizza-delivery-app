@@ -16,7 +16,20 @@ export function Providers({ children}: ProvidersProps) {
       <HeroUIProvider>
         <NextThemesProvider attribute="class" defaultTheme="dark">
           <div className="transition-colors duration-500 select-none">
-            <ToastProvider />
+            <ToastProvider
+              toastProps={{
+                radius: "md",
+                color: "primary",
+                variant: "flat",
+                timeout: 2000,
+                hideIcon: true,
+                shouldShowTimeoutProgress: true,
+                classNames: {
+                  closeButton:
+                    "opacity-100 absolute right-4 top-1/2 -translate-y-1/2",
+                },
+              }}
+            />
             {children}
           </div>
         </NextThemesProvider>
