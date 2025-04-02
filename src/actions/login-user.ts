@@ -1,6 +1,5 @@
 "use server";
 
-import { signIn } from "@/auth";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -8,30 +7,61 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-export async function loginUser(prevState: any, formData: FormData) {
-  const email = formData.get("email");
-  const password = formData.get("password");
+interface LoginFormState {
+  errors?: {
+    email?: string[];
+    password?: string[];
+    _form?: string[];
+  };
+  inputs?: {
+    email?: string;
+    password?: string;
+  };
+  success?: boolean;
+}
 
-  const parsed = loginSchema.safeParse({ email, password });
+export async function loginUser(
+  prevState: LoginFormState,
+  formData: FormData
+): Promise<LoginFormState> {
+  const rawData = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
 
-  if (!parsed.success) {
-    const errors = parsed.error.flatten().fieldErrors;
-    return { errors };
+  const result = loginSchema.safeParse(rawData);
+
+  if (!result.success) {
+    console.log(result.error.flatten().fieldErrors);
+    return {
+      errors: result.error.flatten().fieldErrors,
+      inputs: rawData,
+    };
   }
 
   try {
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    // const authResult = await signIn("credentials", {
+    //   email: rawData.email,
+    //   password: rawData.password,
+    //   redirect: false,
+    // });
 
-    if (!result || result.error) {
-      return { errors: { general: "Invalid credentials" } };
-    }
-
-    return { success: true };
-  } catch {
-    return { errors: { general: "Something went wrong" } };
+    // if (!authResult || authResult.error) {
+    //   return {
+    //     errors: {
+    //       _form: ["Invalid credentials"],
+    //     },
+    //     inputs: rawData,
+    //   };
+    // }
+    console.log(rawData);
+    return { success: true, inputs: rawData };
+  } catch (err) {
+    return {
+      errors: {
+        _form: ["Something went wrong"],
+      },
+      inputs: rawData,
+    };
   }
 }

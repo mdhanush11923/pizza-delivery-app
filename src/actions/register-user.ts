@@ -1,46 +1,70 @@
+"use server";
+
 import { z } from "zod";
 
 const signupSchema = z
   .object({
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
+    email: z.string().email("Invalid email address"),
+    p1: z.string().min(6, "Password must be at least 6 characters"),
+    p2: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.p1 === data.p2, {
     message: "Passwords do not match",
-    path: ["confirmPassword"],
+    path: ["p2"],
   });
 
-export async function registerUser(prevState: any, formData: FormData) {
-  const firstName = formData.get("firstName");
-  const lastName = formData.get("lastName");
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const confirmPassword = formData.get("confirmPassword");
+interface RegisterFormState {
+  errors?: {
+    firstName?: string[];
+    lastName?: string[];
+    email?: string[];
+    p1?: string[];
+    p2?: string[];
+    _form?: string[];
+  };
+  inputs?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    p1?: string;
+    p2?: string;
+  };
+  success?: boolean;
+}
 
-  const parsed = signupSchema.safeParse({
-    firstName,
-    lastName,
-    email,
-    password,
-    confirmPassword,
-  });
+export async function registerUser(
+  prevState: RegisterFormState,
+  formData: FormData
+): Promise<RegisterFormState> {
+  const rawData = {
+    firstName: formData.get("firstName") as string,
+    lastName: formData.get("lastName") as string,
+    email: formData.get("email") as string,
+    p1: formData.get("p1") as string,
+    p2: formData.get("p2") as string,
+  };
 
-  if (!parsed.success) {
-    return { errors: parsed.error.flatten().fieldErrors };
+  const result = signupSchema.safeParse(rawData);
+
+  if (!result.success) {
+    console.log(result.error.flatten().fieldErrors);
+    return {
+      errors: result.error.flatten().fieldErrors,
+      inputs: rawData,
+    };
   }
 
   try {
-    await someUserRegistrationFunction({
-      firstName,
-      lastName,
-      email,
-      password,
-    });
-    return { success: true };
+    console.log("User registration data:", rawData);
+    return { success: true, inputs: rawData };
   } catch (err) {
-    return { errors: { general: "Signup failed" } };
+    return {
+      errors: {
+        _form: ["Signup failed due to an unexpected error"],
+      },
+      inputs: rawData,
+    };
   }
 }

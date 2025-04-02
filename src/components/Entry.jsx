@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useActionState } from "react";
 import {
   CardFooter,
   CardHeader,
@@ -14,6 +14,7 @@ import {
   Image,
   Divider,
   addToast,
+  Form,
 } from "@heroui/react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -28,13 +29,20 @@ export default function Entry(props) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-    // const [loginState, loginAction] = useActionState(actions.loginUser, {
-    //   errors: {},
-    // });
-    // const [signupState, signupAction] = useActionState(actions.registerUser, {
-    //   errors: {},
-    // });
-
+  const [loginState, loginAction, isLoginPending] = useActionState(
+    actions.loginUser,
+    {
+      errors: {},
+      inputs: {},
+    }
+  );
+    const [signupState, signupAction, isPending] = useActionState(
+      actions.registerUser,
+      {
+        errors: {},
+        inputs: {},
+      }
+    );
 
   const [isVisible, setIsVisible] = React.useState({
     loginPassword: false,
@@ -214,72 +222,6 @@ export default function Entry(props) {
     registerUser(formData);
   }
 
-  const registerUser = async (formData) => {
-    try {
-      const response = await fetch(
-        "http://192.168.0.177:8080/api/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const text = await response.text();
-      console.log("Response:", text);
-
-      if (!response.ok) {
-        throw new Error(text || "Registration failed");
-      }
-
-      addToast({
-        variant: "success",
-        title: "Registration successful! Please log in.",
-      });
-    } catch (error) {
-      console.error("Error:", error);
-      addToast({
-        color: "danger",
-        title: error.message,
-      });
-    }
-  };
-
-  const loginUser = async (loginData) => {
-    try {
-      const response = await fetch("http://192.168.0.177:8080/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
-
-      const text = await response.text();
-      console.log("Response:", text);
-
-      if (!response.ok) {
-        throw new Error(text || "Login failed");
-      }
-
-      addToast({
-        variant: "success",
-        title: "Login successful! Redirecting...",
-      });
-      router.push("/dashboard");
-
-      // Handle storing token or redirecting user here
-    } catch (error) {
-      console.error("Error:", error);
-      addToast({
-        color: "danger",
-        title: error.message,
-      });
-    }
-  };
-
   // Email validation function using regex
   const validateEmail = (email) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -340,26 +282,28 @@ export default function Entry(props) {
             radius="lg"
           >
             <Tab key="login" title="Login">
-              <form>
-                <div className="flex-col space-y-5 justify-center">
+              <Form
+                key={JSON.stringify(loginState.inputs)} // Ensure form resets on success
+                action={loginAction}
+                validationErrors={loginState.errors}
+                validationBehavior="aria"
+              >
+                <div className="flex-col w-full space-y-5 justify-center">
                   <Input
-                    isClearable
                     name="email"
-                    onChange={handleLoginChange}
-                    value={loginDetails.email}
                     type="email"
                     label="Email"
-                    isInvalid={isInvalidLoginEmail}
-                    color={isInvalidLoginEmail && "danger"}
-                    errorMessage="Please enter a valid email"
-                    onClear={() => handleLoginClear("email")} // Clear only the email field
+                    isInvalid={!!loginState.errors?.email}
+                    errorMessage={loginState.errors?.email}
+                    defaultValue={loginState.inputs?.email || ""}
                   />
                   <Input
                     isClearable
                     name="p1"
-                    onChange={handleLoginChange}
-                    value={loginDetails.p1}
                     label="Password"
+                    isInvalid={!!loginState.errors?.password}
+                    errorMessage={loginState.errors?.password}
+                    defaultValue={loginState.inputs?.password || ""}
                     endContent={
                       <span
                         className="focus:outline-none"
@@ -398,12 +342,12 @@ export default function Entry(props) {
                     className={buttonClass}
                     variant="solid"
                     size="lg"
-                    onPress={handleLoginSubmit}
+                    type="submit"
                   >
                     Login
                   </Button>
                 </div>
-              </form>
+              </Form>
               <Divider className="my-5" />
 
               <div className="flex justify-between">
@@ -422,122 +366,128 @@ export default function Entry(props) {
                     </Button>
                   </form>
                 </div>
-                  <Button
-                    className="place-self-end"
-                    variant="light"
-                    onPress={() => {
-                      navigate("/pizza-delivery/admin");
-                    }}
-                    href="/pizza-delivery/admin"
-                  >
-                    Admin?
-                  </Button>
+                <Button
+                  className="place-self-end"
+                  variant="light"
+                  onPress={() => {
+                    navigate("/pizza-delivery/admin");
+                  }}
+                  href="/pizza-delivery/admin"
+                >
+                  Admin?
+                </Button>
               </div>
             </Tab>
 
             <Tab key="signup" title="Sign up">
-              <div className="flex-col space-y-5 justify-center">
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+              <Form
+                key={JSON.stringify(signupState.inputs)} // Ensure form resets on success
+                action={signupAction}
+                validationErrors={signupState.errors}
+                validationBehavior="aria"
+              >
+                <div className="flex-col space-y-5 justify-center">
+                  <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                    <Input
+                      name="firstName"
+                      type="text"
+                      label="First Name"
+                      isInvalid={!!signupState.errors?.firstName}
+                      errorMessage={signupState.errors?.firstName}
+                      defaultValue={signupState.inputs?.firstName || ""}
+                    />
+                    <Input
+                      name="lastName"
+                      type="text"
+                      label="Last Name"
+                      isInvalid={!!signupState.errors?.lastName}
+                      errorMessage={signupState.errors?.lastName}
+                      defaultValue={signupState.inputs?.lastName || ""}
+                    />
+                  </div>
                   <Input
-                    name="firstName"
-                    type="text"
-                    onChange={handleSignupChange}
-                    value={details.firstName}
-                    label="First Name"
-                    onClear={() => handleSignupClear("firstName")} // Clear only the first name field
+                    name="email"
+                    type="email"
+                    label="Email"
+                    isInvalid={!!signupState.errors?.email}
+                    errorMessage={signupState.errors?.email}
+                    defaultValue={signupState.inputs?.email || ""}
                   />
-                  <Input
-                    name="lastName"
-                    type="text"
-                    onChange={handleSignupChange}
-                    value={details.lastName}
-                    label="Last Name"
-                    onClear={() => handleSignupClear("lastName")} // Clear only the last name field
-                  />
-                </div>
-                <Input
-                  name="email"
-                  type="email"
-                  onChange={handleSignupChange}
-                  value={details.email}
-                  label="Email"
-                  isInvalid={isInvalidSignUpEmail}
-                  color={isInvalidSignUpEmail && "danger"}
-                  errorMessage="Please enter a valid email"
-                  onClear={() => handleSignupClear("email")} // Clear only the email field
-                />
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                  <Input
-                    isClearable
-                    name="p1"
-                    type={isVisible.signupPassword ? "text" : "password"}
-                    onChange={handleSignupChange}
-                    value={details.p1}
-                    label="Password"
-                    endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={() => toggleVisibility("signupPassword")}
-                        aria-label="toggle password visibility"
-                      >
-                        {isVisible.signupPassword ? (
-                          <VisibilityIcon className="text-2xl text-default-400 pointer-events-none" />
-                        ) : (
-                          <VisibilityOffIcon className="text-2xl text-default-400 pointer-events-none" />
-                        )}
-                      </button>
-                    }
-                  />
-                  <Input
-                    isClearable
-                    name="p2"
-                    type={isVisible.signupConfirm ? "text" : "password"}
-                    onChange={handleSignupChange}
-                    value={details.p2}
-                    label="Confirm"
-                    endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={() => toggleVisibility("signupConfirm")}
-                        aria-label="toggle confirm password visibility"
-                      >
-                        {isVisible.signupConfirm ? (
-                          <VisibilityIcon className="text-2xl text-default-400 pointer-events-none" />
-                        ) : (
-                          <VisibilityOffIcon className="text-2xl text-default-400 pointer-events-none" />
-                        )}
-                      </button>
-                    }
-                  />
-                </div>
-                <Button
-                  fullWidth
-                  radius="lg"
-                  className={buttonClass}
-                  variant="solid"
-                  size="lg"
-                  onPress={handleSignupSubmit}
-                >
-                  Sign Up
-                </Button>
-                <Snackbar
-                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                  open={openSignupAlert}
-                  autoHideDuration={6000}
-                  onClose={handleAlertClose}
-                >
-                  <Alert
-                    onClose={handleAlertClose}
-                    severity="success"
-                    variant="filled"
-                    sx={{ width: "100%" }}
+                  <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                    <Input
+                      isClearable
+                      name="p1"
+                      type={isVisible.signupPassword ? "text" : "password"}
+                      label="Password"
+                      isInvalid={!!signupState.errors?.p1}
+                      errorMessage={signupState.errors?.p1}
+                      defaultValue={signupState.inputs?.p1 || ""}
+                      endContent={
+                        <button
+                          className="focus:outline-none"
+                          type="button"
+                          onClick={() => toggleVisibility("signupPassword")}
+                          aria-label="toggle password visibility"
+                        >
+                          {isVisible.signupPassword ? (
+                            <VisibilityIcon className="text-2xl text-default-400 pointer-events-none" />
+                          ) : (
+                            <VisibilityOffIcon className="text-2xl text-default-400 pointer-events-none" />
+                          )}
+                        </button>
+                      }
+                    />
+                    <Input
+                      isClearable
+                      name="p2"
+                      type={isVisible.signupConfirm ? "text" : "password"}
+                      label="Confirm Password"
+                      isInvalid={!!signupState.errors?.p2}
+                      errorMessage={signupState.errors?.p2}
+                      defaultValue={signupState.inputs?.p2 || ""}
+                      endContent={
+                        <button
+                          className="focus:outline-none"
+                          type="button"
+                          onClick={() => toggleVisibility("signupConfirm")}
+                          aria-label="toggle confirm password visibility"
+                        >
+                          {isVisible.signupConfirm ? (
+                            <VisibilityIcon className="text-2xl text-default-400 pointer-events-none" />
+                          ) : (
+                            <VisibilityOffIcon className="text-2xl text-default-400 pointer-events-none" />
+                          )}
+                        </button>
+                      }
+                    />
+                  </div>
+                  <Button
+                    fullWidth
+                    radius="lg"
+                    className={buttonClass}
+                    variant="solid"
+                    size="lg"
+                    type="submit"
                   >
-                    You’ve successfully signed up. Please log in to continue.
-                  </Alert>
-                </Snackbar>
-              </div>
+                    Sign Up
+                  </Button>
+                  <Snackbar
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    open={openSignupAlert}
+                    autoHideDuration={6000}
+                    onClose={handleAlertClose}
+                  >
+                    <Alert
+                      onClose={handleAlertClose}
+                      severity="success"
+                      variant="filled"
+                      sx={{ width: "100%" }}
+                    >
+                      You’ve successfully signed up. Please log in to continue.
+                    </Alert>
+                  </Snackbar>
+                </div>
+              </Form>
             </Tab>
           </Tabs>
         </CardBody>
