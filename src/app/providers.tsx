@@ -21,7 +21,7 @@ export function Providers({ children}: ProvidersProps) {
                 radius: "md",
                 color: "primary",
                 variant: "flat",
-                timeout: 2000,
+                timeout: 3000,
                 hideIcon: true,
                 shouldShowTimeoutProgress: true,
                 classNames: {

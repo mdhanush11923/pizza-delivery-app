@@ -4,6 +4,7 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
 import { loginSchema } from "@/schemas";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
 interface LoginFormState {
   errors?: {
@@ -38,29 +39,51 @@ export async function loginUser(
 
   try {
     await signIn("credentials", {
-      email: rawData.email,
-      password: rawData.password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      email: result.data.email,
+      password: result.data.password,
+      redirect: false,
     });
+
+    return { success: true };
   } catch (err) {
     if (err instanceof AuthError) {
+      let errorMessage = "Something went wrong. Please try again.";
+
       switch (err.type) {
         case "CredentialsSignin":
-          return {
-            errors: {
-              _form: ["Invalid email or password"],
-            },
-            inputs: rawData,
-          };
+          errorMessage = "Invalid email or password.";
+          break;
+        case "OAuthAccountNotLinked":
+          errorMessage =
+            "This account was registered using Google or GitHub. Please log in with that method.";
+          break;
+        case "AccessDenied":
+          errorMessage = "Access denied. Please contact support.";
+          break;
+        case "Verification":
+          errorMessage = "Email verification failed.";
+          break;
         default:
-          return {
-            errors: {
-              _form: ["Something went wrong"],
-            },
-            inputs: rawData,
-          };
+          errorMessage = err.message || errorMessage;
       }
+
+      console.log(errorMessage);
+
+      return {
+        errors: {
+          _form: [errorMessage],
+        },
+        inputs: rawData,
+        success: false,
+      };
     }
-    throw err;
+
+    return {
+      errors: {
+        _form: ["An unexpected error occurred. Please try again later."],
+      },
+      inputs: rawData,
+      success: false,
+    };
   }
 }

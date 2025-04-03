@@ -1,39 +1,48 @@
-import { addToast, Button, Form, Input } from "@heroui/react";
+import { addToast, Form, Input } from "@heroui/react";
 import React, { useActionState } from "react";
 import * as actions from "@/actions";
 import PasswordInput from "./PasswordInput";
+import SubmitButton from "./SubmitButton";
+// Define a type for the action state
+interface ActionState {
+  success?: boolean;
+  errors?: {
+    _form?: string[];
+  };
+}
+
+// Ensure T extends ActionState so it has success & errors
+function withToasts<T extends ActionState>(
+  action: (prevState: T, formData: FormData) => Promise<T>
+) {
+  return async (prevState: T, formData: FormData): Promise<T> => {
+    const result = await action(prevState, formData);
+
+    if (result.success) {
+      addToast({ color: "success", title: "Signup successful!" });
+    } else if (result.errors?._form?.length) {
+      addToast({ color: "danger", title: result.errors._form[0] });
+    }
+
+    return result;
+  };
+}
 
 export default function RegisterForm() {
   const [signupState, signupAction, isPending] = useActionState(
-    actions.registerUser,
+    withToasts(actions.registerUser),
     {
       errors: {},
       inputs: {},
     }
   );
 
-    // React.useEffect(() => {
-    //   if (signupState.errors?._form) {
-    //     addToast({
-    //       color: "danger",
-    //       title: signupState.errors._form[0],
-    //     });
-    //   }
-    //   if (signupState.success) {
-    //     addToast({
-    //       color: "success",
-    //       title: "Signup successful!",
-    //     });
-    //   }
-    // }, [signupState]);
-
-        const firstErrors = Object.fromEntries(
-      Object.entries(signupState.errors || {}).map(([key, value]) => [
-        key,
-        Array.isArray(value) ? value[0] : value,
-      ])
-    );
-
+  const firstErrors = Object.fromEntries(
+    Object.entries(signupState.errors || {}).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value[0] : value,
+    ])
+  );
 
   return (
     <Form
@@ -79,32 +88,7 @@ export default function RegisterForm() {
             defaultValue={signupState.inputs?.p2 || ""}
           />
         </div>
-        <Button
-          fullWidth
-          radius="lg"
-          className="bg-[#4C5D65] font-semibold hover:font-extrabold hover:bg-[#F27F14] text-white h-16"
-          variant="solid"
-          size="lg"
-          type="submit"
-          isLoading={isPending}
-        >
-          Sign Up
-        </Button>
-        {/* <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          open={openSignupAlert}
-          autoHideDuration={6000}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            variant="filled"
-            sx={{ width: "100%" }}
-          >
-            You’ve successfully signed up. Please log in to continue.
-          </Alert>
-        </Snackbar> */}
+        <SubmitButton isLoading={isPending}>Sign Up</SubmitButton>
       </div>
     </Form>
   );
