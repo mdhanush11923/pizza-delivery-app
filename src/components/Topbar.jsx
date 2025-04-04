@@ -23,8 +23,7 @@ import NextLink from "next/link";
 import { useCart } from "./CartData";
 import { useModalStore } from "@/store/useModalStore";
 import { bases, veggies } from "./pizzaData";
-// import { signOut } from "@/actions";
-
+import { signOut } from "@/actions";
 
 export default function Topbar(props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -50,10 +49,11 @@ export default function Topbar(props) {
     router.push(path);
   };
 
-  const handleLogoutClick = () => {
-    // signOut();
+  const handleLogout = async () => {
+    toast.success("Logged out successfully! 👋");
+    await signOut(); // your action function
     router.push("/");
-  }
+  };
 
   return (
     <Navbar
@@ -85,14 +85,16 @@ export default function Topbar(props) {
           </NavbarItem>
         ))}
         <NavbarItem className="hidden md:flex ">
-          <Button className="text-danger" variant="light" onPress={handleLogoutClick}>
-            Logout
-          </Button>
+          <form action={signOut}>
+            <Button className="text-danger" variant="light" type="submit">
+              Logout
+            </Button>
+          </form>
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end">
-      {/* {veggies.map((base)=> (<NavbarItem key={base.id}>{base.availableQuantity}</NavbarItem>))} */}
+        {/* {veggies.map((base)=> (<NavbarItem key={base.id}>{base.availableQuantity}</NavbarItem>))} */}
         <NavbarItem>
           <IconButton aria-label="cart" onClick={openModal}>
             <Badge

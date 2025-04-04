@@ -33,10 +33,10 @@ export const ThemeSwitch = () => {
                    transition-all hover:border-blue-500 hover:shadow-[0px_0px_10px_2px]
                    hover:shadow-blue-500 dark:hover:shadow-blue-300"
       style={{
-        width: 65,
-        height: 35,
-        borderRadius: 50,
-        padding: 5,
+        width: 50,
+        height: 28,
+        borderRadius: 40,
+        padding: 4,
       }}
       onClick={onChange}
       aria-label="Toggle Dark Mode"
@@ -44,8 +44,8 @@ export const ThemeSwitch = () => {
       <motion.div
         className="bg-myhouseblue text-white flex items-center justify-center p-1"
         style={{
-          width: 24,
-          height: 24,
+          width: 19,
+          height: 19,
           borderRadius: "50%",
         }}
         layout
@@ -55,10 +55,14 @@ export const ThemeSwitch = () => {
           bounce: 0.3,
         }}
         animate={{
-          x: isDark ? 30 : 0,
+          x: isDark ? 20 : 0,
         }}
       >
-        {isDark ? <SunFilledIcon /> : <MoonFilledIcon />}
+        {isDark ? (
+          <SunFilledIcon width={14} height={14} />
+        ) : (
+          <MoonFilledIcon width={14} height={14} />
+        )}
       </motion.div>
     </button>
   );

@@ -3,6 +3,7 @@ import React, { useActionState } from "react";
 import * as actions from "@/actions";
 import PasswordInput from "./PasswordInput";
 import SubmitButton from "./SubmitButton";
+import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
 // Define a type for the action state
 interface ActionState {
   success?: boolean;
@@ -19,9 +20,18 @@ function withToasts<T extends ActionState>(
     const result = await action(prevState, formData);
 
     if (result.success) {
-      addToast({ color: "success", title: "Signup successful!" });
+      addToast({
+        color: "success",
+        title: "Signup successful!",
+        description: "Welcome aboard! Redirecting you shortly...",
+      });
+      window.location.href = DEFAULT_LOGIN_REDIRECT;
     } else if (result.errors?._form?.length) {
-      addToast({ color: "danger", title: result.errors._form[0] });
+      addToast({
+        color: "danger",
+        title: "Signup failed",
+        description: result.errors._form[0],
+      });
     }
 
     return result;

@@ -18,8 +18,15 @@ const paths = {
 
 export default paths;
 
-export const privateRoutes = ["/admin", "/dashboard"];
+export const privateRoutes = [
+  "/admin/stock",
+  "/admin/orders",
+  "/dashboard",
+  "/dashboard/menu",
+  "/dashboard/custom",
+  "/dashboard/orders",
+];
 
-export const entryRoutes = ["/login", "signup"]
+export const entryRoutes = ["/", "/login", "signup"]
 
-export const DEFAULT_LOGIN_REDIRECT = "/admin";
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";

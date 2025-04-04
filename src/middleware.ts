@@ -24,7 +24,7 @@ export default auth(async function middleware(req) {
   }
 
   if (isPrivateRoute && !isLoggedIn) {
-    return Response.redirect(new URL("/login", baseUrl));
+    return Response.redirect(new URL("/", baseUrl));
   }
 
 

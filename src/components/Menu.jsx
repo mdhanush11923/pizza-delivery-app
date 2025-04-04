@@ -56,7 +56,7 @@ export default function Menu() {
                   className="w-full flex-grow flex justify-center"
                 >
                   <BlurFade delay={0.25} inView>
-                    <PizzaItem key={index} id={index} color="bg-peachblossom" />
+                    <PizzaItem id={index} color="bg-peachblossom" />
                   </BlurFade>
                 </div>
               ))}

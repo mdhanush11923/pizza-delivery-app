@@ -18,19 +18,28 @@ export default function Hero() {
           <h2 className="scroll-m-20 pb-2 text-lg tracking-tight mt-6 lg:text-xl">
             Craving pizza? We&apos;ve got you covered!{" "}
             <span
-              className={`${title({ color: "yellow", size: "vs" })} whitespace-nowrap`}
+              className={`${title({
+                color: "yellow",
+                size: "vs",
+              })} whitespace-nowrap`}
             >
               🔥Hot
             </span>
             {", "}
             <span
-              className={`${title({ color: "blue", size: "vs" })}  whitespace-nowrap`}
+              className={`${title({
+                color: "blue",
+                size: "vs",
+              })}  whitespace-nowrap`}
             >
               🍃fresh
             </span>{" "}
             <span className={``}>and delivered</span>
             <span
-              className={`${title({ color: "green", size: "vs" })} whitespace-nowrap`}
+              className={`${title({
+                color: "green",
+                size: "vs",
+              })} whitespace-nowrap`}
             >
               ⚡fast!
             </span>
@@ -75,9 +84,9 @@ export default function Hero() {
         Featured Pizzas
       </h1>
       <div className="flex flex-wrap gap-20 justify-center mb-20 items-center">
-        <PizzaItem color="bg-limefrost" id={0} />
-        <PizzaItem color="bg-lemonburst" id={4} />
-        <PizzaItem color="bg-limefrost" id={5} />
+        <PizzaItem key={0} color="bg-limefrost" id={0} />
+        <PizzaItem key={4} color="bg-lemonburst" id={4} />
+        <PizzaItem key={5} color="bg-limefrost" id={5} />
       </div>
     </div>
   );

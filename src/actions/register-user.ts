@@ -3,6 +3,7 @@
 import bcrypt from "bcryptjs";
 import { db } from "@/db";
 import { signupSchema } from "@/schemas";
+import { signIn } from "@/auth";
 
 interface RegisterFormState {
   errors?: {
@@ -66,6 +67,12 @@ export async function registerUser(
         password: hashedPassword,
         email: rawData.email,
       },
+    });
+
+    await signIn("credentials", {
+      email: result.data.email,
+      password: result.data.p1,
+      redirect: false,
     });
 
     return { success: true, inputs: rawData };

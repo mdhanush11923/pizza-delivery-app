@@ -25,10 +25,18 @@ function withToasts<T extends ActionState>(
     const result = await action(prevState, formData);
 
     if (result.success) {
-      addToast({ color: "success", title: "Login successful!" });
-        window.location.href = DEFAULT_LOGIN_REDIRECT;
+      addToast({
+        color: "success",
+        title: "Login successful!",
+        description: "Redirecting to your dashboard...",
+      });
+      window.location.href = DEFAULT_LOGIN_REDIRECT;
     } else if (result.errors?._form?.length) {
-      addToast({ color: "danger", title: result.errors._form[0] });
+      addToast({
+        color: "danger",
+        title: "Login failed",
+        description: result.errors._form[0],
+      });
     }
 
     return result;
