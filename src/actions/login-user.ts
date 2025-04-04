@@ -1,10 +1,8 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/paths";
 import { loginSchema } from "@/schemas";
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 
 interface LoginFormState {
   errors?: {

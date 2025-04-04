@@ -34,7 +34,6 @@ export default function CartUi() {
   const { isOpen, openModal, closeModal } = useModalStore();
   const router = useRouter();
 
-  // Function to dynamically load Razorpay script
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -45,43 +44,10 @@ export default function CartUi() {
     });
   };
 
-  const verifyPayment = async (paymentId) => {
-    const response = await fetch("/api/verify-payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ paymentId }), // Only sending the paymentId
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      // alert("Payment verified successfully!");
-      addToast({
-        variant: "success",
-        title: "Payment verified successfully!",
-      });
-      closeModal();
-      const newOrder = createOrder(
-        paymentId,
-        "John Doe",
-        cartItems,
-        new Date(),
-        cartTotal
-      );
-      addNewOrder(newOrder);
-      clearCart();
-      router.push("/dashboard/orders");
-    } else {
-      alert("Payment verification failed.");
-    }
-  };
-
   const handlePayment = async () => {
     const isScriptLoaded = await loadRazorpayScript();
 
     if (!isScriptLoaded) {
-      // alert("Failed to load Razorpay. Please try again later.");
       addToast({
         variant: "destructive",
         title: "Failed to load Razorpay. Please try again later.",
@@ -96,12 +62,27 @@ export default function CartUi() {
 
     const options = {
       key: "rzp_test_erkUjbE4TD28ds",
-      amount: cartTotal * 100, // Amount in paise
+      amount: cartTotal * 100,
       currency: "INR",
       name: "PIZzA Delivery",
       description: "Test Transaction",
-      handler: async function (response) {
-        await verifyPayment(response.razorpay_payment_id); // Pass only the paymentId
+      handler: function (response) {
+        addToast({
+          variant: "success",
+          title: "Payment successful!",
+        });
+
+        const newOrder = createOrder(
+          response.razorpay_payment_id,
+          "John Doe",
+          cartItems,
+          new Date(),
+          cartTotal
+        );
+        addNewOrder(newOrder);
+        clearCart();
+        closeModal();
+        router.push("/dashboard/orders");
       },
       prefill: {
         name: "Customer Name",
@@ -117,12 +98,9 @@ export default function CartUi() {
       },
       config: {
         display: {
-          hide: [
-            { method: "card" },
-            { method: "paylater" }, // Hide Pay Later option
-          ],
+          hide: [{ method: "card" }, { method: "paylater" }],
           preferences: {
-            show_default_blocks: true, // Show default blocks for payment methods
+            show_default_blocks: true,
           },
         },
       },
@@ -131,6 +109,7 @@ export default function CartUi() {
     const rzp1 = new Razorpay(options);
     rzp1.open();
   };
+
 
   // console.log("Cart items: ", cartItems);
 
