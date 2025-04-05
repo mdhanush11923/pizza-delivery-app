@@ -9,8 +9,8 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <div className="flex flex-col gap-10 pt-5">
-      <section className="flex flex-wrap items-center justify-center gap-10 px-10 select-none">
+    <div className="flex flex-col gap-10">
+      <section className="flex flex-wrap items-center justify-center gap-10 select-none">
         <div className="max-w-lg gap-4">
           <h1 className="scroll-m-20 mb-10 font-black tracking-tight text-3xl lg:text-5xl">
             Delicious Pizza Delivered Right to Your Doorstep

@@ -7,6 +7,7 @@ import PizzaItem from "./PizzaItem";
 import pizzas from "./pizzaData";
 import { vegetarianPizzas, nonVegetarianPizzas } from "./pizzaData";
 import BlurFade from "./ui/blur-fade";
+import { ChevronDown } from "lucide-react";
 
 export default function Menu() {
   const colors = [
@@ -29,11 +30,25 @@ export default function Menu() {
   const [selectedKey, setSelectedKey] = React.useState("All Items");
 
   return (
-    <div className="flex flex-col h-full items-center mx-5 lg:mx-16 gap-6">
+    <div className="flex flex-col h-full items-center gap-6">
       <div className="flex flex-wrap  items-center gap-3 w-full justify-center sm:justify-between">
-        <h1 className="flex gap-2 p-3 text-center sm:text-start justify-center sm:justify-start font-poppins items-center font-extrabold tracking-tight text-4xl h-28 w-72 lg:w-[26rem] sm:text-4xl">
-          {selectedKey}
-        </h1>
+        <div className="flex flex-col justify-center sm:justify-start gap-3 mb-5">
+          <h1 className="font-poppins text-4xl font-extrabold tracking-tight text-center sm:text-left">
+            {selectedKey === "All Items"
+              ? "Explore Our Full Pizza Menu"
+              : selectedKey === "Vegetarian"
+              ? "Fresh & Green: Veggie Delights"
+              : "Meaty Goodness: Non-Veg Faves"}
+          </h1>
+          <p className="text-muted-foreground text-sm text-center sm:text-left">
+            {selectedKey === "All Items"
+              ? "From cheesy classics to spicy experiments — we’ve got your cravings covered."
+              : selectedKey === "Vegetarian"
+              ? "Loaded with fresh veggies and flavor-packed sauces. 100% meat-free."
+              : "Packed with bold spices and savory toppings for the meat lovers out there."}
+          </p>
+        </div>
+
         <Tabs
           defaultSelectedKey="All Items"
           selectedKey={selectedKey}
@@ -49,7 +64,7 @@ export default function Menu() {
           aria-label="Tabs sizes"
         >
           <Tab key="All Items" title="Both">
-            <div className="grid justify-items-center  place-items-start content-evenly gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
+            <div className="grid justify-items-center place-items-start content-evenly gap-5 md:gap-16 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
               {pizzas.map((pizza, index) => (
                 <div
                   key={pizza.id}

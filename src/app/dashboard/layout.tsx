@@ -23,15 +23,17 @@ export default async function DashBoardLayout({
   if(true) {
 
     return (
-      <section className="flex flex-col items-center justify-center gap-4">
-      <CartProvider>
-        <Topbar />
-        <div className="">{children}</div>
-        <CartUi />
-        <Footer />
-      </CartProvider>
-    </section>
-  );
+      <section className="">
+        <CartProvider>
+          <Topbar />
+          <div className="flex flex-col items-center justify-center gap-4 max-w-screen-xl mx-auto mt-10 p-5">
+            {children}
+          </div>
+          <CartUi />
+          <Footer />
+        </CartProvider>
+      </section>
+    );
 }
 else {
   redirect("/login");

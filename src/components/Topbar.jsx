@@ -57,7 +57,7 @@ export default function Topbar(props) {
 
   return (
     <Navbar
-      maxWidth="lg"
+      maxWidth="xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
@@ -69,7 +69,7 @@ export default function Topbar(props) {
         <p className="font-black text-inherit text-lg">PIZzA</p>
         <p className="font-regular text-inherit text-sm">Delivery</p>
       </NavbarBrand>
-      <NavbarContent className="hidden ml-3 w-full md:flex" justify="start">
+      <NavbarContent className="hidden ml-3 md:flex" justify="start">
         {menuItems.slice(0, 4).map((item) => (
           <NavbarItem
             className=" data-[active=true]:font-bold data-[active=true]:text-limefros p-1"
