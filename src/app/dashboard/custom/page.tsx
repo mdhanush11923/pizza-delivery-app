@@ -1,5 +1,4 @@
-import Loading from "@/components/Loading";
-import PizzaCustomization from "@/components/PizzaCustomization";
+import PizzaCustomization from "@/components/custom-pizza/PizzaCustomization";
 
 export default function CustomPage() {
   return <PizzaCustomization />;

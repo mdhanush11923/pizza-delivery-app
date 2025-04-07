@@ -13,9 +13,9 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { useTheme } from "next-themes";
-import { useCart } from "./CartData";
+import { useCart } from "../CartData";
 import { useRouter } from "next/navigation";
-import { createOrder } from "./PizzaInterfaces";
+import { createOrder } from "../PizzaInterfaces";
 import { useModalStore } from "@/store/useModalStore";
 import { ArrowBigRightDash } from "lucide-react";
 

@@ -2,10 +2,10 @@
 
 import { Button, Image } from "@heroui/react";
 import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { ThemeSwitch } from "@/components/theme-switch";
+import { title, subtitle } from "@/components/ui/primitives";
+import { ThemeSwitch } from "@/components/layout/theme-switch";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 import { useRouter } from "next/navigation";
 import { BorderBeam } from "@/components/ui/border-beam";
 import Link from "next/link";

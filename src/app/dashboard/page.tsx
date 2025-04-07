@@ -1,6 +1,6 @@
-import Loading from "@/components/Loading";
+import Loading from "@/components/LoadingPage";
 import dynamic from "next/dynamic";
-const Hero = dynamic(() => import("@/components/Hero"), {
+const Hero = dynamic(() => import("@/components/HeroPage"), {
   loading: () => <Loading />,
 });
 

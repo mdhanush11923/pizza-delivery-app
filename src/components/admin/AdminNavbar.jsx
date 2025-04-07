@@ -17,12 +17,12 @@ import {
 } from "@heroui/react";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { ThemeSwitch } from "./theme-switch";
+import { ThemeSwitch } from "../layout/theme-switch";
 import Link from "next/link";
 import NextLink from "next/link";
-import { useCart } from "./CartData";
+import { useCart } from "../CartData";
 import { useModalStore } from "@/store/useModalStore";
-import { bases, veggies } from "./pizzaData";
+import { bases, veggies } from "../pizzaData";
 import { signOut } from "@/actions";
 
 
@@ -34,7 +34,7 @@ export default function AdminNavbar(props) {
   const pathname = usePathname();
   const menuItems = [
     { title: "Stock", path: "/admin/stock" },
-    // { title: "Menu", path: "/dashboard/menu" },
+    { title: "Menu", path: "/admin/menu" },
     // { title: "Custom", path: "/dashboard/custom" },
     { title: "Orders", path: "/admin/orders" },
   ];
@@ -56,7 +56,7 @@ export default function AdminNavbar(props) {
 
   return (
     <Navbar
-      maxWidth="lg"
+      maxWidth="xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
@@ -92,18 +92,7 @@ export default function AdminNavbar(props) {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem>
-          <IconButton aria-label="cart" onClick={openModal}>
-            <Badge
-              size="lg"
-              // content={cartCount === 0 ? "" : cartCount}
-              variant="shadow"
-              color="success"
-            >
-              <ShoppingCartIcon color="success" />
-            </Badge>
-          </IconButton>
-        </NavbarItem>
+
 
         <NavbarItem>
           <ThemeSwitch />

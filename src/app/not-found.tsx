@@ -1,6 +1,6 @@
 "use client";
 
-import { BackButton } from "@/components/BackButton";
+import { BackButton } from "@/components/ui/BackButton";
 import { Image } from "@heroui/image";
 
 export default function NotFoundPage() {

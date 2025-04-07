@@ -1,56 +1,43 @@
 // tailwind.config.js
 import { heroui } from "@heroui/react";
 
-/** @type {import('tailwindcss').Config} */
 const config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-
-    // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    // make sure it's pointing to the ROOT node_module
     "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
 
   theme: {
-    screens: {
-      xm: "445px",
-
-      sm: "640px",
-      // => @media (min-width: 640px) { ... }
-
-      md: "768px",
-      // => @media (min-width: 768px) { ... }
-
-      re: "986px",
-
-      lg: "1024px",
-      // => @media (min-width: 1024px) { ... }
-
-      xl: "1280px",
-      // => @media (min-width: 1280px) { ... }
-
-      "2xl": "1536px",
-      // => @media (min-width: 1536px) { ... }
-    },
-    colors: {
-      transparent: "transparent",
-      current: "currentColor",
-      white: "#ffffff",
-      purple: "#3f3cbb",
-      midnight: "#121063",
-      metal: "#565584",
-      limefrost: "#B4E380",
-      veggreen: "#C3FF93",
-      lemonburst: "#FFFF80",
-      myhouseblue: "#4C5D65",
-      peachblossom: "#fadfa1",
-      reddanger: "#FF204E",
-      charcoalgray: "#424242",
-    },
     extend: {
+      screens: {
+        xm: "445px",
+        re: "986px",
+      },
+      colors: {
+        // ✅ Your custom colors (added on top of Tailwind's default palette)
+        transparent: "transparent",
+        current: "currentColor",
+        white: "#ffffff",
+        purple: "#3f3cbb",
+        midnight: "#121063",
+        metal: "#565584",
+        limefrost: "#B4E380",
+        veggreen: "#C3FF93",
+        lemonburst: "#FFFF80",
+        myhouseblue: "#4C5D65",
+        peachblossom: "#fadfa1",
+        reddanger: "#FF204E",
+        charcoalgray: "#424242",
+
+        "color-1": "hsl(var(--color-1))",
+        "color-2": "hsl(var(--color-2))",
+        "color-3": "hsl(var(--color-3))",
+        "color-4": "hsl(var(--color-4))",
+        "color-5": "hsl(var(--color-5))",
+      },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
@@ -59,13 +46,6 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-      },
-      colors: {
-        "color-1": "hsl(var(--color-1))",
-        "color-2": "hsl(var(--color-2))",
-        "color-3": "hsl(var(--color-3))",
-        "color-4": "hsl(var(--color-4))",
-        "color-5": "hsl(var(--color-5))",
       },
       animation: {
         rainbow: "rainbow var(--speed, 2s) infinite linear",
@@ -99,6 +79,7 @@ const config = {
       },
     },
   },
+
   darkMode: "class",
   plugins: [heroui()],
 };

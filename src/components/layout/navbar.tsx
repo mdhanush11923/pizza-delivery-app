@@ -26,7 +26,7 @@ import {
   HeartFilledIcon,
   SearchIcon,
   Logo,
-} from "@/components/icons";
+} from "@/components/ui/icons";
 import { usePathname } from "next/navigation";
 
 export const Navbar = () => {

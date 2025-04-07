@@ -17,12 +17,12 @@ import {
 } from "@heroui/react";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { ThemeSwitch } from "./theme-switch";
+import { ThemeSwitch } from "../layout/theme-switch";
 import Link from "next/link";
 import NextLink from "next/link";
-import { useCart } from "./CartData";
+import { useCart } from "../CartData";
 import { useModalStore } from "@/store/useModalStore";
-import { bases, veggies } from "./pizzaData";
+import { bases, veggies } from "../pizzaData";
 import { signOut } from "@/actions";
 
 export default function Topbar(props) {
@@ -59,7 +59,7 @@ export default function Topbar(props) {
     <Navbar
       maxWidth="xl"
       isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen}
+      onMenuOpenChange={setIsMenuOpen} position="static"
     >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import HistoryIcon from "@mui/icons-material/History";
-import { useCart } from "./CartData";
+import { useCart } from "../CartData";
 import {
   Table,
   TableHeader,
@@ -67,7 +67,7 @@ export default function Orders() {
                           size="sm"
                           variant="flat"
                         >
-                          {order.status} 
+                          {order.status}
                         </Chip>
                         {/* <Accordion>
                           <AccordionItem

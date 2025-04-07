@@ -1,5 +1,4 @@
-import StartPage from "@/components/StartPage";
-import Orders from "@/components/Orders";
+import Orders from "@/components/orders/Orders";
 export default function HomePage() {
   return <Orders />
 }

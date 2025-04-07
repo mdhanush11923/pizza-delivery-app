@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import pizzas, { bases, cheeses, sauces, veggies } from "./pizzaData";
-import { useCart } from "./CartData";
-import { createCartItem } from "./PizzaInterfaces";
+import pizzas, { bases, cheeses, sauces, veggies } from "../pizzaData";
+import { useCart } from "../CartData";
+import { createCartItem } from "../PizzaInterfaces";
 import PizzaDropdown from "./PizzaDropdown";
 import PizzaImage from "./PizzaImage";
 import PizzaControls from './PizzaControls';

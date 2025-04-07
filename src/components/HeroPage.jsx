@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Divider, Image, Button } from "@heroui/react";
-import PizzaItem from "./PizzaItem";
-import { title } from "./primitives";
+import PizzaItem from "./pizza-item/PizzaItem";
+import { title } from "./ui/primitives";
 import TextRevealByWord from "./ui/text-reveal";
 import Link from "next/link";
 

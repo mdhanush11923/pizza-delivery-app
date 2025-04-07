@@ -1,13 +1,12 @@
 import dynamic from "next/dynamic";
-import Loading from "@/components/Loading";
-import Footer from "@/components/Footer";
-import { Navbar } from "@/components/navbar";
+import Loading from "@/components/LoadingPage";
+import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/components/CartData";
-import CartUi from "@/components/CartUi";
+import CartUi from "@/components/cart/CartUi";
 // import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-const Topbar = dynamic(() => import("@/components/Topbar"), {
+const Topbar = dynamic(() => import("@/components/layout/Topbar"), {
   loading: () => <Loading />,
 });
 // const Footer = dynamic(() => import("@/components/Footer"), {
@@ -26,7 +25,7 @@ export default async function DashBoardLayout({
       <section className="">
         <CartProvider>
           <Topbar />
-          <div className="flex flex-col items-center justify-center gap-4 max-w-screen-xl mx-auto mt-10 p-5">
+          <div className="flex flex-col items-center justify-center gap-4 max-w-screen-xl mx-auto mt-5 p-5">
             {children}
           </div>
           <CartUi />

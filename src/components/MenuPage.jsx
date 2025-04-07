@@ -3,11 +3,10 @@
 import React from "react";
 import { Card, CardBody, CardFooter, Image, Tab, Tabs } from "@heroui/react";
 import { Button } from "@heroui/react";
-import PizzaItem from "./PizzaItem";
+import PizzaItem from "./pizza-item/PizzaItem";
 import pizzas from "./pizzaData";
 import { vegetarianPizzas, nonVegetarianPizzas } from "./pizzaData";
 import BlurFade from "./ui/blur-fade";
-import { ChevronDown } from "lucide-react";
 
 export default function Menu() {
   const colors = [
@@ -67,11 +66,11 @@ export default function Menu() {
             <div className="grid justify-items-center place-items-start content-evenly gap-5 md:gap-16 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
               {pizzas.map((pizza, index) => (
                 <div
-                  key={pizza.id}
+                  key={pizza.pizzaId}
                   className="w-full flex-grow flex justify-center"
                 >
                   <BlurFade delay={0.25} inView>
-                    <PizzaItem id={index} color="bg-peachblossom" />
+                    <PizzaItem id={pizza.pizzaId} color="bg-peachblossom" />
                   </BlurFade>
                 </div>
               ))}

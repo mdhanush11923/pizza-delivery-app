@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
-import Loading from "@/components/Loading";
-const Menu = dynamic(() => import("@/components/Menu"), {
+import Loading from "@/components/LoadingPage";
+const Menu = dynamic(() => import("@/components/MenuPage"), {
   loading: () => <Loading />,
 });
 

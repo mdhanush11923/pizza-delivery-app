@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { MoonFilledIcon, SunFilledIcon } from "./icons";
+import { MoonFilledIcon, SunFilledIcon } from "../ui/icons";
 import { motion } from "motion/react";
 
 export const ThemeSwitch = () => {

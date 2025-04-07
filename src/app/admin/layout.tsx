@@ -1,4 +1,4 @@
-import AdminNavbar from "@/components/AdminNavbar";
+import AdminNavbar from "@/components/admin/AdminNavbar";
 
 export default function AdminLayout({
   children,
@@ -6,9 +6,9 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="lg:px-16">
-      <AdminNavbar/>
-      <div className="flex justify-center items-center w-full">
+    <section className="">
+      <AdminNavbar />
+      <div className="flex flex-col items-center justify-center gap-4 max-w-screen-xl mx-auto mt-5 p-5">
         {children}
       </div>
     </section>
