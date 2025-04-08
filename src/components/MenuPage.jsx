@@ -1,35 +1,16 @@
 "use client";
 
 import React from "react";
-import { Card, CardBody, CardFooter, Image, Tab, Tabs } from "@heroui/react";
-import { Button } from "@heroui/react";
-import PizzaItem from "./pizza-item/PizzaItem";
-import pizzas from "./pizzaData";
-import { vegetarianPizzas, nonVegetarianPizzas } from "./pizzaData";
-import BlurFade from "./ui/blur-fade";
+import { Image, Tab, Tabs } from "@heroui/react";
+import PizzaItem from "@/components/pizza-item/PizzaItem";
+import pizzas,{ vegetarianPizzas, nonVegetarianPizzas } from "@/components/pizzaData";
+import BlurFade from "@/components/ui/blur-fade";
 
 export default function Menu() {
-  const colors = [
-    "#98DED9", // Blue-Green
-    "#A1D6B2", // Green
-    "#B4E380", // Green
-    "#CCE0AC", // Light Green
-    "#C3FF93", // Pale Green
-    "#D5ED9F", // Light Green
-    "#F0EAAC", // Light Yellow
-    "#FFFF80", // Yellow
-    "#C0C78C", // Olive
-    "#F4DEB3", // Beige
-    "#FFDB5C", // Yellow-Orange
-    "#FFEEAD", // Light Orange
-    "#FFDBB5", // Peach
-    "#fadfa1", // Light Apricot
-  ];
-
   const [selectedKey, setSelectedKey] = React.useState("All Items");
 
   return (
-    <div className="flex flex-col h-full items-center gap-6">
+    <div className="flex flex-col h-full items-center gap-6 mt-5">
       <div className="flex flex-wrap  items-center gap-3 w-full justify-center sm:justify-between">
         <div className="flex flex-col justify-center sm:justify-start gap-3 mb-5">
           <h1 className="font-poppins text-4xl font-extrabold tracking-tight text-center sm:text-left">

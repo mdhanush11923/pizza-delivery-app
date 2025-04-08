@@ -59,7 +59,7 @@ export default function Topbar(props) {
     <Navbar
       maxWidth="xl"
       isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen} position="static"
+      onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}

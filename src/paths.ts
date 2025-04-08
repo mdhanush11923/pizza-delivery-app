@@ -1,24 +1,4 @@
-const paths = {
-  home() {
-    return "/";
-  },
-
-  topicShow(topicSlug: string) {
-    return `/topics/${topicSlug}`;
-  },
-
-  postCreate(topicSlug: string) {
-    return `/topics/${topicSlug}/posts/new`;
-  },
-
-  postShow(topicSlug: string, postId: string) {
-    return `/topics/${topicSlug}/posts/${postId}`;
-  },
-};
-
-export default paths;
-
-export const privateRoutes = [
+export const privateRoutes: string[] = [
   "/admin/stock",
   "/admin/orders",
   "/dashboard",
@@ -27,6 +7,6 @@ export const privateRoutes = [
   "/dashboard/orders",
 ];
 
-export const entryRoutes = ["/", "/login", "signup"]
+export const entryRoutes: string[] = ["/", "/login", "signup"];
 
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
